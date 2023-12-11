@@ -3,7 +3,7 @@
 
 # Identifier for your extension
 # TODO: Replace this with an descriptive name for your extension.
-name: greet-the-world
+name: kill-switch
 version: 0.0.1 # Follow semver versioning
 specVersion: v1beta # Version of the Firebase Extensions specification
 
@@ -17,7 +17,9 @@ description: >-
 license: Apache-2.0 # https://spdx.org/licenses/
 
 # Public URL for the source code of your extension.
-sourceUrl: https://github.com/christiangenco/killswitch
+sourceUrl: https://github.com/christiangenco/Firebase-Kill-Switch
+
+# icon:
 
 # Specify whether a paid-tier billing plan is required to use your extension.
 # Learn more in the docs: https://firebase.google.com/docs/extensions/reference/extension-yaml#billing-required-field
@@ -27,34 +29,48 @@ billingRequired: true
 # required for your extension to operate.
 # Learn more in the docs:
 # https://firebase.google.com/docs/extensions/reference/extension-yaml#apis-field
+apis:
+  - apiName: cloudbilling.googleapis.com
+    reason: Check billing use.
 
 # In a `roles` field, list any IAM access roles required for your extension to operate.
 # Learn more in the docs:
 # https://firebase.google.com/docs/extensions/reference/extension-yaml#roles-field
+# list of supported roles: https://firebase.google.com/docs/extensions/publishers/access#supported-roles
+# billing.admin
+# recommended roles: https://cloud.google.com/billing/docs/how-to/modify-project#disable_billing_for_a_project
+roles:
+  - role: billing.resourceAssociations.list
+    reason: Check if billing is enabled.
+  - role: billing.resourceAssociations.delete
+    reason: Disable billing if the budget is exceeded.
 
 # In the `resources` field, list each of your extension's functions, including the trigger for each function.
 # Learn more in the docs:
 # https://firebase.google.com/docs/extensions/reference/extension-yaml#resources-field
 resources:
-  - name: greetTheWorld
+  - name: checkBillingUse
     type: firebaseextensions.v1beta.function
     description: >-
-      HTTP request-triggered function that responds with a specified greeting message
+      Check if the budget limit has been reached. If so, disable Cloud Billing.
     properties:
       # httpsTrigger is used for an HTTP triggered function.
       httpsTrigger: {}
       runtime: "nodejs16"
-
 # In the `params` field, set up your extension's user-configured parameters.
 # Learn more in the docs:
 # https://firebase.google.com/docs/extensions/reference/extension-yaml#params-field
 params:
-  - param: GREETING
-    label: Greeting for the world
+  - param: BILLING_PUBSUB_TOPIC
+    label: Budget Pub/Sub topic
     description: >-
-      What do you want to say to the world?
-      For example, Hello world? or What's up, world?
+      From your Firebase project click the gear icon next to Project Overview, then click "Usage and billing", then "Details & settings", then "View budgets", then visit the budget for this project or create one, then under the "Manage notifications" section check the box for "Connect a Pub/Sub topic to this budget", then name your Pub/Sub topic something like "billing", then click "CREATE A TOPIC". If the "CREATE A TOPIC" button is grayed out try clicking "SWITCH PROJECT" and selecting your project. Enter the full value of the dropdown here which should look like "projects/YOUR_PROJECT_ID/topics/billing".
     type: string
-    default: Hello
+    default: projects/YOUR_PROJECT_ID/topics/billing
     required: true
     immutable: false
+
+author:
+  authorName: Genco Cocoa Corp.
+  email: christian@gen.co
+  url: https://gen.co

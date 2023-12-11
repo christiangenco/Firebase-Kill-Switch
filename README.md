@@ -1,3 +1,15 @@
+Publisher profile: https://console.firebase.google.com/u/0/project/gencococoacorp/publisher/dashboard
+
+https://cloud.google.com/billing/docs/how-to/notify#cap_disable_billing_to_stop_usage
+
+https://www.youtube.com/watch?v=NWrZwXK92IM&list=PLl-K7zZEsYLmK1tiMBeKA0iDMPDCJKM-5
+
+https://www.youtube.com/watch?v=xRj0RRAxYX8&t=1314s
+
+https://firebase.google.com/docs/extensions/publishers
+
+---
+
 This directory now contains the source files for a simple extension called greet-the-world. You can try it out right away in the Firebase Emulator suite - just navigate to the integration-test directory and run:
 
 firebase emulators:start --project=<project-id>
@@ -8,7 +20,7 @@ The integration-test directory also includes an end to end test (in the file int
 
 npm run test
 
-If you want to jump into the code to customize your extension, then modify index.js and extension.yaml in your favorite editor. 
+If you want to jump into the code to customize your extension, then modify index.js and extension.yaml in your favorite editor.
 
 If you want to deploy your extension to test on a real project, go to a Firebase project directory (or create a new one with firebase init) and run:
 
